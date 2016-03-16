@@ -1,5 +1,6 @@
 package com.example.matt.labtask2;
 
+import android.animation.Animator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,18 +26,39 @@ public class MainActivity extends AppCompatActivity {
     // animate the eightball model
     private void moveEightBall(EightBallModel fortune){
 
-        android.view.animation.Animation myanimation;
-        myanimation = new android.view.animation.AlphaAnimation(0.0f, 1.0f);
-        myanimation.setDuration(400);
-        myanimation.setStartOffset(0);
+//        android.view.animation.Animation myanimation;
+//        myanimation = new android.view.animation.AlphaAnimation(0.0f, 1.0f);
+//        myanimation.setDuration(400);
+//        myanimation.setStartOffset(0);
 
-        String randResp;
         String magicSrc = "";
-        randResp = fortune.magicResponse();
+        final String randResp = fortune.magicResponse();
         magicSrc = fortune.magicBackground();
         int resID = getResources().getIdentifier(magicSrc, "drawable", getPackageName());
-        this.displayText.startAnimation(myanimation);
-        displayText.setText(randResp);
+        //this.displayText.startAnimation(myanimation);
+        this.displayText.animate().setDuration(2).alpha(0f).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                displayText.setText(randResp);
+                displayText.animate().setDuration(2).alpha(1f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
         circleImage.setBackgroundResource(resID);
 
     }
@@ -76,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // set the onchange event for the text field
+        // this.userInput.onEditorAction
 
         this.userInput.setOnKeyListener(new android.view.View.OnKeyListener() {
 
